@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,6 +31,7 @@ public class User {
 
     private  Boolean isStudent;
     private  Boolean isDelete;
-
+    @OneToMany(mappedBy = "user")
+    private List<UserAccount> accounts;
 
 }
