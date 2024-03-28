@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Ite2MbankingApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(Ite2MbankingApplication.class, args);
     }
 
