@@ -24,6 +24,13 @@ public class Account {
     @Column(unique = true, nullable = false, length = 100)
     private String actName;
 
+    @Column(length = 100)
+    private String alias;
+
+    @Column(nullable = false)
+    private BigDecimal balance;
+
+    @Column(nullable = false)
     private BigDecimal transferLimit;
 
     // Account has a type
@@ -35,5 +42,8 @@ public class Account {
 
     @OneToOne
     private Card card;
+    // uses to hide account on mobile app
+    private Boolean isHidden;
+
 
 }

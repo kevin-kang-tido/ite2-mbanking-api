@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,5 +19,8 @@ public class Role {
     private  Integer id;
     @Column(length = 50)
     private String name;
+
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users;
 
 }
