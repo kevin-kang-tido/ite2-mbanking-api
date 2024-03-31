@@ -17,6 +17,8 @@ public class AccountType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
+    @Column(unique = true, nullable = false, length = 100)
+    private String alias;
     @Column(updatable = false,unique = true, length = 100)
     private String name;
     @Column(columnDefinition = "TEXT")

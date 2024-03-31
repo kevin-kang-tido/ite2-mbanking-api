@@ -1,7 +1,9 @@
 package co.istad.ite2mbanking.feature.user.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record UserCreateRequest(
@@ -27,6 +29,29 @@ public record UserCreateRequest(
         String nationalCardId,
         @Size(max = 20)
         String studentIdCard
+
+
+
+//       String cityOrProvince;
+//
+//
+//       String khanOrDistrict;
+//
+//       String sangkatOrCommune;
+//
+//        String village;
+//
+//        String street;
+//
+//        String employeeType;
+//
+//        String position;
+//
+//        String companyName;
+
+
+
+
 
 
 ) {
