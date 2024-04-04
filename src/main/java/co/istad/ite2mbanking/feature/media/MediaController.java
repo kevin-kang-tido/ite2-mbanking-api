@@ -4,6 +4,7 @@ import co.istad.ite2mbanking.feature.media.dto.MediaResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +36,14 @@ public class MediaController {
 
     }
 
+    @GetMapping("/load-all-media")
+    List<MediaResponse> loadAllMedia (){
+        return mediaService.loadAllMedia("IMAGE");
+    }
+    @GetMapping("/download/{fileName}")
+    public ResponseEntity<Resource> downloadMediaByName(String folderName, @PathVariable String fileName) {
+        return mediaService.downloadMediaByName("IMAGE", fileName);
+    }
 
 
 

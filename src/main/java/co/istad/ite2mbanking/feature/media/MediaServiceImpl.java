@@ -7,12 +7,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -136,6 +139,55 @@ public class MediaServiceImpl implements MediaService{
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     String.format("Media Path:%s can not be deleted!",e.getLocalizedMessage())
             );
+        }
+    }
+
+    @Override
+    public List<MediaResponse> loadAllMedia(String folderName) {
+        try {
+            List<MediaResponse> getAllMediaFiles = new ArrayList<>();
+            Path baseDir = Paths.get(serverPath, folderName);
+
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            Resource[] resources = resolver.getResources("file:" + baseDir.toString() + "/*");
+
+            for (Resource resource : resources) {
+                String fileName = resource.getFilename();
+                Path filePath = Paths.get(resource.getURI());
+
+                MediaResponse mediaResponse = new MediaResponse(
+                        fileName,
+                        MediaUtil.extractExtension(fileName),
+                        Files.probeContentType(filePath),
+                        String.format("%s/%s",baseUri,folderName),
+                        Files.size(filePath)
+                );
+                getAllMediaFiles.add(mediaResponse);
+            }
+            return getAllMediaFiles;
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error loading media files", e);
+        }
+    }
+    @Override
+    public ResponseEntity<Resource> downloadMediaByName(String folderName, String fileName) {
+        try {
+            Path path = Paths.get(serverPath+folderName+"\\"+fileName);
+            Resource resource = new UrlResource(path.toUri());
+
+            if (!resource.exists()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Media file not found");
+            }
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("attachment", fileName);
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(resource);
+
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error downloading media file", e);
         }
     }
 }
