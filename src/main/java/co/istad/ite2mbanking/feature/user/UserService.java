@@ -1,6 +1,6 @@
 package co.istad.ite2mbanking.feature.user;
 
-import co.istad.ite2mbanking.feature.base.BaseMessage;
+import co.istad.ite2mbanking.base.BaseMessage;
 import co.istad.ite2mbanking.feature.user.dto.UserCreateRequest;
 import co.istad.ite2mbanking.feature.user.dto.UserDetailsResponse;
 import co.istad.ite2mbanking.feature.user.dto.UserEditPassword;
@@ -20,5 +20,7 @@ public interface UserService {
     void deleteUserByUuid(String uuid);
     BaseMessage enableByUuid(String uuid);
     BaseMessage disableByUuid(String uuid);
+
+    String updateProfileImages(String uuid,String mediaName);
 
 }

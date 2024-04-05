@@ -43,7 +43,7 @@ public class MediaServiceImpl implements MediaService{
         // extract extension form file upload
         // assume profile.png
 
-       newName +="." + MediaUtil.extractExtension(file.getName());
+       newName +="." + MediaUtil.extractExtension(file.getOriginalFilename());
 
 
 //        log.info("extension: {}",extension);
@@ -169,25 +169,43 @@ public class MediaServiceImpl implements MediaService{
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error loading media files", e);
         }
     }
+    // code by teacher
     @Override
-    public ResponseEntity<Resource> downloadMediaByName(String folderName, String fileName) {
+    public Resource downloadMediaByName(String mediaName, String folderName) {
+        // Create absolute path of media
+        Path path = Paths.get(serverPath + folderName + "\\" + mediaName);
         try {
-            Path path = Paths.get(serverPath+folderName+"\\"+fileName);
-            Resource resource = new UrlResource(path.toUri());
-
-            if (!resource.exists()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Media file not found");
-            }
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", fileName);
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .body(resource);
-
-        } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Error downloading media file", e);
+            return new UrlResource(path.toUri());
+        } catch (MalformedURLException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Media has not been found!");
         }
     }
 }
+
+
+
+
+// download code by me
+//    @Override
+//    public ResponseEntity<Resource> downloadMediaByName(String folderName, String fileName) {
+//        try {
+//            Path path = Paths.get(serverPath+folderName+"\\"+fileName);
+//            Resource resource = new UrlResource(path.toUri());
+//
+//            if (!resource.exists()) {
+//                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Media file not found");
+//            }
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//            headers.setContentDispositionFormData("attachment", fileName);
+//            return ResponseEntity.ok()
+//                    .headers(headers)
+//                    .body(resource);
+//
+//        } catch (IOException e) {
+//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+//                    "Error downloading media file", e);
+//        }
+//    }
+//}

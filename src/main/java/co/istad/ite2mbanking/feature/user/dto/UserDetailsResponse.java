@@ -9,6 +9,7 @@ public record UserDetailsResponse(
         @Max(9999)
         @Positive
         Integer pin,
+        String uuid,
         @NotBlank
         String name,
         @NotBlank

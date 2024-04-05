@@ -2,7 +2,7 @@ package co.istad.ite2mbanking.feature.user;
 
 import co.istad.ite2mbanking.domain.Role;
 import co.istad.ite2mbanking.domain.User;
-import co.istad.ite2mbanking.feature.base.BaseMessage;
+import co.istad.ite2mbanking.base.BaseMessage;
 import co.istad.ite2mbanking.feature.user.dto.UserCreateRequest;
 import co.istad.ite2mbanking.feature.user.dto.UserDetailsResponse;
 import co.istad.ite2mbanking.feature.user.dto.UserEditPassword;
@@ -10,6 +10,7 @@ import co.istad.ite2mbanking.feature.user.dto.UserEditRequest;
 import co.istad.ite2mbanking.mapper.UserMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService{
     private final   UserRepository userRepository;
     private  final  RoleRepository roleRepository;
     private  final UserMapper userMapper;
+
+    @Value("${MEDIA_BASE_URI}")
+    private  String mediaBaseUri;
 
     @Override
     public void createUser(UserCreateRequest userCreateRequest) {
@@ -195,6 +199,19 @@ public class UserServiceImpl implements UserService{
         userRepository.disableByUuid(uuid);
 
         return new BaseMessage("User has been Disable!");
+    }
+
+    @Override
+    public String updateProfileImages(String uuid, String mediaName) {
+        User user = userRepository.findByUuid(uuid)
+                .orElseThrow(()-> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "User have been not found!"
+                ));
+        user.setProfileImage(mediaName);
+        userRepository.save(user);
+
+        return mediaBaseUri +"IMAGE/" + mediaName;
     }
 
 }

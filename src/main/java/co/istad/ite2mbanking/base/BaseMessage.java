@@ -1,4 +1,4 @@
-package co.istad.ite2mbanking.feature.base;
+package co.istad.ite2mbanking.base;
 
 import lombok.*;
 
