@@ -6,7 +6,6 @@ public class MediaUtil {
                 .lastIndexOf(".");
         String extension = mediaName
                 .substring(lastDotIndex+1);
-
         return  extension;
     }
 
