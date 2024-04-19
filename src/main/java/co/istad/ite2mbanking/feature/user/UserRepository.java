@@ -33,6 +33,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     void enableByUuid(String uuid);
 
 
+    Optional<User> findByPhoneNumber(String username);
 }
 
 
