@@ -14,8 +14,12 @@ import java.util.Collection;
 @NoArgsConstructor
 public class CustomUserDetails implements UserDetails {
     private User user;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        // TODO: role that we can return must implement GrantedAuthority form the roles
         return user.getRoles();
     }
 
@@ -36,7 +40,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.isAccountNonLocke();
+        return user.isAccountNonLocked();
     }
 
     @Override

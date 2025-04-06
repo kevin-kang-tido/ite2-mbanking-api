@@ -33,7 +33,7 @@ public class Account {
     @Column(nullable = false)
     private BigDecimal transferLimit;
 
-    // Account has a type
+    // Many Account has can have  a account type
     @ManyToOne
     private AccountType accountType;
 

@@ -92,7 +92,7 @@ public class User {
     private List<Role> roles;
 
     private boolean isAccountNonExpired;
-    private boolean isAccountNonLocke;
+    private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
     private Boolean isDeleted; // manage delete status (  admin  want to disable or remove an account)
     private Boolean isBlocked; // manage block status (   when there is bad action happened)
