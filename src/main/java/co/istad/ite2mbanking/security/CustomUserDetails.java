@@ -16,7 +16,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class CustomUserDetails implements UserDetails {
+
     private User user;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -49,7 +51,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.isAccountNonLocke();
+        return user.isAccountNonLocked();
     }
 
     @Override

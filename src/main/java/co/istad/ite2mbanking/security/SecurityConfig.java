@@ -1,9 +1,6 @@
 package co.istad.ite2mbanking.security;
 import co.istad.ite2mbanking.util.KeyUtil;
 import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.KeySourceException;
-import com.nimbusds.jose.jwk.JWK;
-import com.nimbusds.jose.jwk.JWKSelector;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -28,11 +25,6 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAPublicKey;
-import java.util.List;
 import java.util.UUID;
 
 @Configuration
@@ -51,6 +43,9 @@ public class SecurityConfig {
         return provider;
     }
 
+
+    // TODO: set userDetailServiceIml
+    // TODO: set passwordEncoder
     @Bean
     DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -79,10 +74,14 @@ public class SecurityConfig {
                         .authenticated()
                 );
 
-        // security mechanism
+        // TODO: security mechanism for basic security (username and password )
         //httpSecurity.httpBasic(Customizer.withDefaults());
-        httpSecurity.oauth2ResourceServer(jwt -> jwt
-                .jwt(Customizer.withDefaults()));
+
+        // TODO: security mechanism with jwt
+//        httpSecurity.oauth2ResourceServer(jwt -> jwt
+//                .jwt(Customizer.withDefaults()));
+
+        httpSecurity.oauth2ResourceServer(jwt -> jwt.jwt(Customizer.withDefaults()));
 
         // Disable CSRF
         httpSecurity.csrf(token -> token.disable());
@@ -93,6 +92,8 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
+
+    // TODO:  Create JWKSource (JSON Web Key Source)
     @Primary
     @Bean
     JWKSource<SecurityContext> jwkSource() {

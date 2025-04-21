@@ -72,11 +72,7 @@ public class DataInit {
                     List.of(user, customer, staff, admin)
             );
         }
-
     }
-
-
-
 
     @PostConstruct
     void intAccountType(){

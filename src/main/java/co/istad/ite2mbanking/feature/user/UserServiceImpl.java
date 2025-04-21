@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService{
         user.setIsBlocked(false);
         user.setIsDeleted(false);
         user.setAccountNonExpired(true);
-        user.setAccountNonLocke(true);
+        user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
 
 
@@ -132,7 +132,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void editUserPassword(String oldPassword, UserEditPassword userEditPassword) {
+
         System.out.println("User edit Password : "+userEditPassword);
+
         if (!oldPassword.equals(userEditPassword.oldPassword())){
             throw  new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
@@ -167,7 +169,6 @@ public class UserServiceImpl implements UserService{
     public Page<UserDetailsResponse> findList(int page, int limit) {
         PageRequest pageRequest = PageRequest.of(page,limit);
         Page<User> users = userRepository.findAll(pageRequest);
-
         return users.map(userMapper::toUserDetailsResponse);
     }
     @Transactional
